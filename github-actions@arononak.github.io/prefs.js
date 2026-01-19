@@ -26,6 +26,7 @@ export default class GithubActionsPreferences extends ExtensionPreferences {
 
             owner,
             repo,
+            repositories,
             refreshTime,
             coldRefreshTime,
             packageSize,
@@ -85,6 +86,13 @@ export default class GithubActionsPreferences extends ExtensionPreferences {
             title: `Repo`,
             text: repo,
             onChanged: (text) => prefsController.updateRepo(text),
+        })
+
+        const repositoriesRow = createEntityRow({
+            title: `Repositories`,
+            subtitle: `Comma-separated owner/repo list (takes precedence)`,
+            text: repositories,
+            onChanged: (text) => prefsController.updateRepositories(text),
         })
 
         // Appearance
@@ -210,6 +218,7 @@ export default class GithubActionsPreferences extends ExtensionPreferences {
         const watchedGroup = new Adw.PreferencesGroup({ title: `Watched repository` })
         watchedGroup.add(ownerRow)
         watchedGroup.add(repoRow)
+        watchedGroup.add(repositoriesRow)
 
         const refreshStatusGroup = new Adw.PreferencesGroup({ title: `Refresh settings` })
         refreshStatusGroup.add(refreshStatusRow)

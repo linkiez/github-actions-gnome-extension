@@ -18,6 +18,7 @@ export class PrefsController {
 
         const owner = this.settingsRepository.fetchOwner()
         const repo = this.settingsRepository.fetchRepo()
+        const repositories = this.settingsRepository.fetchRepositories()
         const refreshTime = this.settingsRepository.fetchRefreshTime()
         const coldRefreshTime = this.settingsRepository.fetchRefreshFullUpdateTime()
         const packageSize = this.settingsRepository.fetchPackageSize()
@@ -55,6 +56,7 @@ export class PrefsController {
 
             owner,
             repo,
+            repositories,
             refreshTime,
             coldRefreshTime,
             packageSize,
@@ -85,6 +87,10 @@ export class PrefsController {
 
     updateRepo(repo) {
         this.settingsRepository.updateRepo(repo)
+    }
+
+    updateRepositories(repositories) {
+        this.settingsRepository.updateRepositories(repositories)
     }
 
     updateLocale(text) {

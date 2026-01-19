@@ -7,6 +7,10 @@
     <key name="repo" type="s">
       <default>''</default>
     </key>
+    <!-- Keep default empty to preserve legacy repo config unless repositories is set. -->
+    <key name="repositories" type="s">
+      <default>''</default>
+    </key>
     <key name="refresh-time" type="i">
       <default>5</default>
     </key>

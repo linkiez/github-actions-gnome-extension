@@ -38,7 +38,7 @@ export function createButtonRow({ title, subtitle, buttonLabel, onButtonPressed 
     return row
 }
 
-export function createEntityRow({ title, text, onChanged }) {
+export function createEntityRow({ title, subtitle, text, onChanged }) {
     const entry = new Gtk.Entry({
         buffer: new Gtk.EntryBuffer({ text }),
         hexpand: true,
@@ -54,7 +54,10 @@ export function createEntityRow({ title, text, onChanged }) {
         }
     })
 
-    const row = new Adw.ActionRow({ title })
+    const row = new Adw.ActionRow({
+        title,
+        subtitle: subtitle ?? null,
+    })
     row.add_suffix(entry)
     row.activatable_widget = entry
 

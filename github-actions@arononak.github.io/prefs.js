@@ -90,7 +90,7 @@ export default class GithubActionsPreferences extends ExtensionPreferences {
 
         const repositoriesRow = createEntityRow({
             title: `Repositories`,
-            subtitle: `Comma-separated owner/repo list (takes precedence)`,
+            subtitle: `Comma-separated owner/repo list (if set, overrides owner/repo fields above)`,
             text: repositories,
             onChanged: (text) => prefsController.updateRepositories(text),
         })

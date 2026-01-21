@@ -58,8 +58,8 @@ export class SettingsRepository {
     updateLocale = (locale) => this.settings.set_string(`locale`, locale)
 
     ownerAndRepo() {
-        const owner = this.fetchOwner(this.settings)
-        const repo = this.fetchRepo(this.settings)
+        const owner = this.fetchOwner()
+        const repo = this.fetchRepo()
 
         const repositories = this.fetchRepositoryList()
         if (repositories.length > 0) {

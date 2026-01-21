@@ -85,11 +85,17 @@ export class SettingsRepository {
             .map((repository) => {
                 const parts = repository.split(`/`)
                 if (parts.length !== expectedRepositoryParts) {
+                    console.warn(
+                        `Invalid repository entry "${repository}" skipped: expected format "owner/repo".`
+                    )
                     return null
                 }
 
                 const [owner, repo] = parts
                 if (isEmpty(removeWhiteChars(owner)) || isEmpty(removeWhiteChars(repo))) {
+                    console.warn(
+                        `Invalid repository entry "${repository}" skipped: owner or repo is empty.`
+                    )
                     return null
                 }
 

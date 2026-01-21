@@ -13,6 +13,8 @@ export class SettingsRepository {
     updateOwner = (owner) => this.settings.set_string(`owner`, owner)
     fetchRepo = () => this.settings.get_string(`repo`)
     updateRepo = (repo) => this.settings.set_string(`repo`, repo)
+    fetchRepositories = () => this.settings.get_string(`repositories`)
+    updateRepositories = (repositories) => this.settings.set_string(`repositories`, repositories)
 
     fetchPackageSize = () => bytesToString(this.settings.get_int(`package-size-in-bytes`))
     updatePackageSize = (sizeInBytes) => this.settings.set_int(`package-size-in-bytes`, sizeInBytes)
@@ -56,10 +58,50 @@ export class SettingsRepository {
     updateLocale = (locale) => this.settings.set_string(`locale`, locale)
 
     ownerAndRepo() {
-        const owner = this.fetchOwner(this.settings)
-        const repo = this.fetchRepo(this.settings)
+        const owner = this.fetchOwner()
+        const repo = this.fetchRepo()
+
+        const repositories = this.fetchRepositoryList()
+        if (repositories.length > 0) {
+            return repositories[0]
+        }
 
         return { owner, repo }
+    }
+
+    fetchRepositoryList() {
+        const repositories = this.fetchRepositories()
+
+        if (isEmpty(removeWhiteChars(repositories))) {
+            return []
+        }
+
+        const expectedRepositoryParts = 2
+
+        return repositories
+            .split(/\r?\n|,/)
+            .map((repository) => repository.trim())
+            .filter((repository) => repository.length > 0)
+            .map((repository) => {
+                const parts = repository.split(`/`)
+                if (parts.length !== expectedRepositoryParts) {
+                    console.warn(
+                        `Invalid repository entry "${repository}" skipped: expected format "owner/repo".`
+                    )
+                    return null
+                }
+
+                const [owner, repo] = parts
+                if (isEmpty(removeWhiteChars(owner)) || isEmpty(removeWhiteChars(repo))) {
+                    console.warn(
+                        `Invalid repository entry "${repository}" skipped: owner or repo is empty.`
+                    )
+                    return null
+                }
+
+                return { owner, repo }
+            })
+            .filter(Boolean)
     }
 
     fetchAppearanceSettings() {
